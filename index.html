@@ -1,0 +1,216 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>elchetv</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header class="top-bar glass">
+      <div class="brand-wrap">
+        <span class="brand-dot"></span>
+        <h1>elchetv</h1>
+      </div>
+
+      <div class="top-controls">
+        <button id="forYouTab" class="tab-btn active">Para ti</button>
+        <button id="followingTab" class="tab-btn">Siguiendo</button>
+      </div>
+
+      <div class="top-actions">
+        <button id="openLive" class="live-cta" aria-label="Transmitir en vivo">LIVE</button>
+        <button id="openUpload" class="upload-cta" aria-label="Subir video">+</button>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <aside class="desktop-rail left-rail">
+        <div class="panel glass rail-card">
+          <h3>Tu cuenta</h3>
+          <p id="quickUser">@invitado</p>
+          <div class="quick-stats">
+            <span><strong id="quickPosts">0</strong> posts</span>
+            <span><strong id="quickLikes">0</strong> likes</span>
+            <span><strong id="quickFollowers">0</strong> followers</span>
+          </div>
+          <button id="editProfileBtn" class="rail-btn">Editar perfil</button>
+        </div>
+
+        <div class="panel glass rail-card">
+          <h3>Tendencias</h3>
+          <div id="trendingTagsRail" class="tag-list"></div>
+        </div>
+      </aside>
+
+      <div class="view-stack">
+        <section id="feedView" class="view active">
+          <div id="feed" class="feed"></div>
+        </section>
+
+        <section id="exploreView" class="view">
+          <div class="panel glass">
+            <h2>Explorar</h2>
+            <div class="search-row">
+              <input id="searchInput" type="text" placeholder="Buscar usuarios o hashtags" />
+              <button id="searchBtn">Buscar</button>
+            </div>
+            <div id="trendingTags" class="tag-list"></div>
+            <div id="searchResults" class="search-results"></div>
+          </div>
+        </section>
+
+        <section id="liveView" class="view">
+          <div class="panel glass live-panel">
+            <h2>LIVE en elchetv</h2>
+            <p id="liveStatusText">No hay transmision activa.</p>
+            <div class="live-chip-row">
+              <span id="liveBadge" class="live-badge">OFFLINE</span>
+              <span id="liveViewers">0 viewers</span>
+            </div>
+            <div class="live-video-wrap">
+              <video id="liveVideo" playsinline autoplay controls></video>
+            </div>
+            <div class="live-actions">
+              <button id="startLiveBtn">Configurar LIVE</button>
+              <button id="joinLiveBtn">Unirse LIVE</button>
+              <button id="leaveLiveBtn" class="ghost">Salir LIVE</button>
+              <button id="stopLiveBtn" class="ghost">Finalizar LIVE</button>
+            </div>
+            <ul id="liveChatList" class="comment-list"></ul>
+            <div class="comment-compose">
+              <input id="liveChatInput" maxlength="100" placeholder="Mensaje en vivo" />
+              <button id="sendLiveChat">Enviar</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="notifView" class="view">
+          <div class="panel glass">
+            <h2>Notificaciones</h2>
+            <ul id="notifList" class="notif-list"></ul>
+          </div>
+        </section>
+
+        <section id="profileView" class="view">
+          <div class="panel glass profile-head">
+            <div class="avatar" id="profileAvatar">E</div>
+            <div>
+              <h2 id="profileName">@elche</h2>
+              <p id="profileBio">Creador en elchetv</p>
+            </div>
+            <button id="profileEditBtn" class="ghost">Editar</button>
+          </div>
+          <div class="panel glass stats">
+            <div><strong id="statPosts">0</strong><span>Posts</span></div>
+            <div><strong id="statLikes">0</strong><span>Likes</span></div>
+            <div><strong id="statFollowers">0</strong><span>Seguidores</span></div>
+          </div>
+          <div id="profilePosts" class="profile-posts"></div>
+        </section>
+      </div>
+
+      <aside class="desktop-rail right-rail">
+        <div class="panel glass rail-card live-rail">
+          <h3>Centro LIVE</h3>
+          <p id="liveRailText">No hay directos activos.</p>
+          <button id="openLiveFromRail" class="rail-btn">Abrir LIVE</button>
+        </div>
+
+        <div class="panel glass rail-card ad-rail">
+          <p class="sponsored">Publicidad</p>
+          <h3>elchetv studio</h3>
+          <p>Publica, transmite y crece tu audiencia en elchetv.</p>
+        </div>
+      </aside>
+    </main>
+
+    <nav class="bottom-nav glass">
+      <button class="nav-btn active" data-view="feedView">Inicio</button>
+      <button class="nav-btn" data-view="exploreView">Explorar</button>
+      <button class="nav-btn live" data-view="liveView">LIVE</button>
+      <button class="nav-btn accent" id="navUpload">Subir</button>
+      <button class="nav-btn" data-view="notifView">Bandeja</button>
+      <button class="nav-btn" data-view="profileView">Perfil</button>
+    </nav>
+  </div>
+
+  <dialog id="uploadModal" class="modal">
+    <form method="dialog" class="modal-card">
+      <h3>Publicar video en elchetv</h3>
+      <label class="dropzone" for="videoFile">
+        <input id="videoFile" type="file" accept="video/*" />
+        <span id="fileLabel">Selecciona un video</span>
+      </label>
+      <video id="uploadPreview" controls muted playsinline></video>
+      <input id="captionInput" maxlength="180" placeholder="Describe tu video" />
+      <input id="tagsInput" maxlength="120" placeholder="#futbol #humor #elche" />
+      <div class="privacy-row">
+        <label><input type="radio" name="privacy" value="public" checked /> Publico</label>
+        <label><input type="radio" name="privacy" value="followers" /> Solo seguidores</label>
+      </div>
+      <div class="modal-actions">
+        <button value="cancel" class="ghost">Cancelar</button>
+        <button id="publishBtn" value="default" type="button">Publicar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="liveModal" class="modal">
+    <div class="modal-card">
+      <h3>Configurar transmision LIVE</h3>
+      <input id="liveTitleInput" maxlength="60" placeholder="Titulo de la transmision" />
+      <input id="liveTopicInput" maxlength="40" placeholder="Tema (gaming, musica, charla...)" />
+      <p id="liveMsg" class="form-msg"></p>
+      <div class="modal-actions">
+        <button id="closeLiveModal" class="ghost">Cerrar</button>
+        <button id="goLiveBtn" type="button">Iniciar LIVE</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="profileModal" class="modal">
+    <div class="modal-card">
+      <h3>Editar perfil</h3>
+      <input id="profileUsernameInput" maxlength="24" placeholder="Nombre de usuario" />
+      <textarea id="profileBioInput" rows="3" maxlength="120" placeholder="Tu bio"></textarea>
+      <p id="profileMsg" class="form-msg"></p>
+      <div class="modal-actions">
+        <button id="closeProfileModal" class="ghost">Cerrar</button>
+        <button id="saveProfileBtn" type="button">Guardar cambios</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="commentsModal" class="modal">
+    <div class="modal-card comments-card">
+      <h3>Comentarios</h3>
+      <ul id="commentsList" class="comment-list"></ul>
+      <div class="comment-compose">
+        <input id="commentInput" maxlength="120" placeholder="Escribe un comentario" />
+        <button id="sendComment">Enviar</button>
+      </div>
+      <button id="closeComments" class="ghost full">Cerrar</button>
+    </div>
+  </dialog>
+
+  <dialog id="onboardModal" class="modal">
+    <div class="modal-card">
+      <h3>Bienvenido a elchetv</h3>
+      <p>Crea tu perfil para empezar a publicar y seguir creadores.</p>
+      <input id="usernameInput" maxlength="24" placeholder="Nombre de usuario" />
+      <textarea id="bioInput" rows="3" maxlength="120" placeholder="Tu bio"></textarea>
+      <p id="onboardMsg" class="form-msg"></p>
+      <button id="createProfileBtn">Entrar</button>
+    </div>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+</html>
